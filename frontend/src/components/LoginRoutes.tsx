@@ -15,7 +15,7 @@ export const LoginRoute = ({ children }: { children: React.ReactNode }) => {
   }, [token]);
 
   if (auth === null) {
-    return <div>loading...</div>;
+    return <div></div>;
   }
 
   if (auth) {

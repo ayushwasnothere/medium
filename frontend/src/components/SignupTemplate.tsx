@@ -6,7 +6,6 @@ import { ErrorBox } from "../components/ErrorBox";
 import { InputBoxV2 } from "../components/InputBoxV2";
 import { SignupInput } from "@citxruzz/medium-common";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { AuthHeader } from "./AuthHeader";
 import { BACKEND_URL } from "../config";
 import { useAuth } from "../hooks/useAuth";
@@ -26,7 +25,6 @@ export const SignupTemplate = () => {
     err: false,
     message: "",
   });
-  const navigate = useNavigate();
 
   return (
     <AuthTemplate>

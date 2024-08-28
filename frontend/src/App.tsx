@@ -1,5 +1,4 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import "./App.css";
 import { Signup } from "./pages/Signup";
 import { Signin } from "./pages/Signin";
 import { Blog } from "./pages/Blog";
@@ -15,13 +14,54 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Navigate to="/blogs" />} />
-        <Route path="/signup" element={<LoginRoute><Signup /></LoginRoute>} />
-        <Route path="/signin" element={<LoginRoute><Signin /></LoginRoute>} />
-        <Route path="/blog/:id" element={<ProtectedRoute><Blog /></ProtectedRoute>} />
-        <Route path="/blogs" element={<ProtectedRoute><Blogs /></ProtectedRoute>}/>
-        <Route path="/blogss" element={<ProtectedRoute><Blogss/></ProtectedRoute>}/>
-        <Route path="/blogs/user/:id" element={<ProtectedRoute><UserBlogs /></ProtectedRoute>} />
-        <Route path="/publish" element={<ProtectedRoute><Publish /></ProtectedRoute>}/>
+        <Route
+          path="/signup"
+          element={
+            <LoginRoute>
+              <Signup />
+            </LoginRoute>
+          }
+        />
+        <Route
+          path="/signin"
+          element={
+            <LoginRoute>
+              <Signin />
+            </LoginRoute>
+          }
+        />
+        <Route
+          path="/blog/:id"
+          element={
+            <ProtectedRoute>
+              <Blog />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/blogs"
+          element={
+            <ProtectedRoute>
+              <Blogs />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/blogs/user/:id"
+          element={
+            <ProtectedRoute>
+              <UserBlogs />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/publish"
+          element={
+            <ProtectedRoute>
+              <Publish />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   );

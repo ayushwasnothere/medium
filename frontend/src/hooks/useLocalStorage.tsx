@@ -2,15 +2,22 @@ import { useState } from "react";
 
 export const useLocalStorage = (
   keyName: string,
-  defaultValue: string | null,
+  defaultValue: {
+    token: string;
+    info: {
+      email: string;
+      name: string;
+      id: string;
+    };
+  },
 ) => {
   const [storedValue, setStoredValue] = useState(() => {
     try {
       const value = window.localStorage.getItem(keyName);
       if (value) {
-        return value;
+        return JSON.parse(value);
       } else {
-        window.localStorage.setItem(keyName, String(defaultValue));
+        window.localStorage.setItem(keyName, JSON.stringify(defaultValue));
         return defaultValue;
       }
     } catch {
@@ -20,7 +27,7 @@ export const useLocalStorage = (
 
   const setValue = (newValue: string | null) => {
     try {
-      window.localStorage.setItem("token", String(newValue));
+      window.localStorage.setItem(keyName, JSON.stringify(newValue));
     } catch (err) {
       console.log(err);
     }

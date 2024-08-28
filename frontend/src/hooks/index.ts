@@ -4,6 +4,7 @@ import { BACKEND_URL } from "../config";
 import { useAuth } from "./useAuth";
 
 export const useBlog = (id?: string) => {
+  const { token } = useAuth();
   const { userId } = useAuth();
   if (id === "me") {
     id = userId;
@@ -12,6 +13,7 @@ export const useBlog = (id?: string) => {
     id: number;
     title: string;
     content: string;
+    createdAt: string;
     author: {
       name: string;
       id: string;
@@ -25,7 +27,7 @@ export const useBlog = (id?: string) => {
     axios
       .get(`${BACKEND_URL}/api/v1/blog/${id ? id : ""}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
@@ -42,20 +44,22 @@ export const useBlogs = (id?: string) => {
     id: number;
     title: string;
     content: string;
+    createdAt: string;
     author: {
       name: string;
       id: string;
     };
   }
 
+  const { token } = useAuth();
   const [loading, setLoading] = useState<boolean>(true);
   const [blogs, setBlogs] = useState<Blog[]>([]);
 
   useEffect(() => {
     axios
-      .get(`${BACKEND_URL}/api/v1/blog/bulk?${id ? `id=${id}` : ""}`, {
+      .get(`${BACKEND_URL}/api/v1/blog/bulk?${id ? `id=${id}` : ""}}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {

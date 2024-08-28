@@ -24,7 +24,7 @@ export const BlogCard = ({
         <div className="flex flex-col gap-4">
           <Link to={`/blogs/user/${authorId}`}>
             <div className="flex items-center gap-2 leading-loose">
-              <Avatar text={authorName} size="small" />
+              <Avatar size="small" />
               <div className="text-sm font-semibold">{authorName}</div>
               <div className="text-xs text-slate-500"> · {publishedDate}</div>
             </div>

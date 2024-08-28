@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Appbar } from "../components/Appbar2.tsx";
+import { Appbar } from "../components/Appbar.tsx";
 import { PreviewTemplate } from "../components/PreviewTemplate";
 import { PublishTemplate } from "../components/PublishTemplate";
 

@@ -6,7 +6,6 @@ import { InputBoxV2 } from "../components/InputBoxV2";
 import { SigninInput } from "@citxruzz/medium-common";
 import { AuthTemplate } from "../components/AuthTemplate";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { AuthHeader } from "./AuthHeader";
 import { BACKEND_URL } from "../config";
 import { useAuth } from "../hooks/useAuth";
@@ -21,7 +20,6 @@ export const SigninTemplate = () => {
     err: false,
     message: "",
   });
-  const navigate = useNavigate();
 
   return (
     <AuthTemplate>

@@ -6,6 +6,7 @@ import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 import { ErrorBox } from "./ErrorBox";
 import { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 interface PublishType {
   title: string;
@@ -25,6 +26,7 @@ export const PublishTemplate = ({
     err: false,
     message: "",
   });
+  const { token } = useAuth();
   return (
     <div className="-slate-100 p-10 mt-16">
       <div className="flex flex-col gap-4">
@@ -63,7 +65,7 @@ export const PublishTemplate = ({
                   { title, content },
                   {
                     headers: {
-                      Authorization: `Bearer ${localStorage.getItem("token")}`,
+                      Authorization: `Bearer ${token}`,
                     },
                   },
                 );

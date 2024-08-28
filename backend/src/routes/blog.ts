@@ -85,12 +85,11 @@ blogRouter.get("/bulk", async (c) => {
   }
   const blogs = await client.blog.findMany({
     where: filter,
-    take: 10,
-    skip: (parseInt(page) - 1) * 10 || 0,
     select: {
       id: true,
       title: true,
       content: true,
+      createdAt: true,
       author: {
         select: {
           name: true,
@@ -191,6 +190,7 @@ blogRouter.get("/:id", async (c) => {
       id: true,
       title: true,
       content: true,
+      createdAt: true,
       author: {
         select: {
           name: true,

@@ -21,7 +21,7 @@ export const FullBlog = ({
       <Link to={`/blogs/user/${authorId}`}>
         <div className="flex gap-4 items-center">
           <div>
-            <Avatar text={authorName} size="big" />
+            <Avatar size="big" />
           </div>
           <div className="text-sm grid gap-0.5">
             <div className="font-semibold">{authorName}</div>
