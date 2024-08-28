@@ -9,8 +9,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthHeader } from "./AuthHeader";
 import { BACKEND_URL } from "../config";
+import { useAuth } from "../hooks/useAuth";
 
 export const SigninTemplate = () => {
+  const { login } = useAuth();
   const [postInputs, setPostInputs] = useState<SigninInput>({
     email: "",
     password: "",
@@ -52,11 +54,7 @@ export const SigninTemplate = () => {
                 postInputs,
               );
               if (res.data.jwt) {
-                await new Promise<void>((r) => {
-                  localStorage.setItem("token", res.data.jwt);
-                  r();
-                });
-                navigate("/blogs");
+                await login(res.data.jwt);
               }
             } catch (err: any) {
               if (err.response.data.error) {

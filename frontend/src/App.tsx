@@ -1,27 +1,28 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { Signnup, Signup } from "./pages/Signup";
+import { Signup } from "./pages/Signup";
 import { Signin } from "./pages/Signin";
 import { Blog } from "./pages/Blog";
 import { Blogs } from "./pages/Blogs";
 import { UserBlogs } from "./pages/UserBlogs";
 import { Publish } from "./pages/Publish";
-import { RequireAuth } from "./components/RequireAuth";
-import { NoAuth } from "./components/NoAuth";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { LoginRoute } from "./components/LoginRoutes";
+import { Blogss } from "./pages/Blogss";
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/signup" element={<NoAuth><Signup /></NoAuth>} />
-          <Route path="/signin" element={<NoAuth><Signin /></NoAuth>} />
-          <Route path="/blog/:id" element={<RequireAuth><Blog /></RequireAuth>} />
-          <Route path="/blogs" element={<RequireAuth><Blogs /></RequireAuth>} />
-          <Route path="/blogs/user/:id" element={<RequireAuth><UserBlogs /></RequireAuth>} />
-          <Route path="/publish" element={<RequireAuth><Publish /></RequireAuth>} />
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/blogs" />} />
+        <Route path="/signup" element={<LoginRoute><Signup /></LoginRoute>} />
+        <Route path="/signin" element={<LoginRoute><Signin /></LoginRoute>} />
+        <Route path="/blog/:id" element={<ProtectedRoute><Blog /></ProtectedRoute>} />
+        <Route path="/blogs" element={<ProtectedRoute><Blogs /></ProtectedRoute>}/>
+        <Route path="/blogss" element={<ProtectedRoute><Blogss/></ProtectedRoute>}/>
+        <Route path="/blogs/user/:id" element={<ProtectedRoute><UserBlogs /></ProtectedRoute>} />
+        <Route path="/publish" element={<ProtectedRoute><Publish /></ProtectedRoute>}/>
+      </Routes>
     </>
   );
 }

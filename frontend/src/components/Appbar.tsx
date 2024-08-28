@@ -1,8 +1,8 @@
-import { jwtDecode } from "jwt-decode";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 export const Appbar = () => {
-  const navigate = useNavigate();
+  const { logout } = useAuth();
   const hover = "hover:text-black cursor-pointer";
   return (
     <div className="w-full fixed flex justify-center border-b border-slate-200 bg-white">
@@ -16,33 +16,15 @@ export const Appbar = () => {
           </div>
         </Link>
         <div className="hidden md:flex gap-8 font-medium text-mdonchange text-gray-600 leading-loose items-center ">
-          <div
-            className={hover}
-            onClick={() => {
-              navigate("/blogs");
-            }}
-          >
+          <Link className={hover} to="/blogs">
             Home
-          </div>
-          <div
-            className={hover}
-            onClick={() => {
-              navigate("/publish");
-            }}
-          >
+          </Link>
+          <Link className={hover} to="/publish">
             Publish
-          </div>
-          <div
-            className={hover}
-            onClick={() => {
-              const token: string | null = localStorage.getItem("token");
-              const decoded: { id: string } = jwtDecode(String(token));
-              const userId = decoded.id;
-              navigate(`/blogs/user/${userId}`);
-            }}
-          >
+          </Link>
+          <Link className={hover} to={`/blogs/user/me`}>
             My Blogs
-          </div>
+          </Link>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -50,9 +32,8 @@ export const Appbar = () => {
             strokeWidth={1.5}
             stroke="currentColor"
             className="size-6 hover:text-black cursor-pointer"
-            onClick={() => {
-              localStorage.clear();
-              navigate("/signin");
+            onClick={async () => {
+              await logout();
             }}
           >
             <path

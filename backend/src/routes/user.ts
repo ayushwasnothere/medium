@@ -81,13 +81,46 @@ userRouter.post("/signin", async (c) => {
   return c.json({ jwt });
 });
 
+userRouter.use("/me/info", async (c) => {
+  const token = c.req.header("authorization")?.split(" ")[1] || "";
+  try {
+    const jwt = await verify(token, c.env.JWT_SECRET);
+    //@ts-ignore
+    c.set("userId", jwt.id);
+
+    const client = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const info = await client.user.findUnique({
+      where: {
+        //@ts-ignore
+        id: jwt.id,
+      },
+      select: {
+        email: true,
+        name: true,
+        id: true,
+      },
+    });
+
+    return c.json({ auth: true, info });
+  } catch (err) {
+    c.status(403);
+    return c.json({
+      error: "Unauthorized",
+      auth: false,
+    });
+  }
+});
+
 userRouter.use("/me", async (c) => {
   const token = c.req.header("authorization")?.split(" ")[1] || "";
   try {
     const user = await verify(token, c.env.JWT_SECRET);
     //@ts-ignore
     c.set("userId", user.id);
-    c.json({ auth: true });
+    return c.json({ auth: true });
   } catch (err) {
     c.status(403);
     return c.json({

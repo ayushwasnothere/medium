@@ -1,8 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../config";
+import { useAuth } from "./useAuth";
 
 export const useBlog = (id?: string) => {
+  const { userId } = useAuth();
+  if (id === "me") {
+    id = userId;
+  }
   interface Blog {
     id: number;
     title: string;
