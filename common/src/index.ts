@@ -1,24 +1,24 @@
 import z from "zod";
 
 export const signupInput = z.object({
-  email: z.string().email(),
+  email: z.string().trim().email(),
   password: z.string().min(6).max(128),
-  name: z.string().max(70),
+  name: z.string().trim().min(1).max(70),
 });
 
 export const signinInput = z.object({
-  email: z.string().email(),
+  email: z.string().trim().email(),
   password: z.string().min(6),
 });
 
 export const createBlogInput = z.object({
-  title: z.string().max(60),
-  content: z.string(),
+  title: z.string().trim().min(1).max(60),
+  content: z.string().trim().min(1),
 });
 
 export const updateBlogInput = z.object({
-  title: z.string().max(60),
-  content: z.string(),
+  title: z.string().trim().min(1).max(60),
+  content: z.string().trim().min(1),
   id: z.number(),
 });
 

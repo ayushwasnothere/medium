@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
-import { sign } from "hono/jwt";
+import { sign, verify } from "hono/jwt";
 import { signinInput, signupInput } from "@citxruzz/medium-common";
 
 export const userRouter = new Hono<{
@@ -21,7 +21,7 @@ userRouter.post("/signup", async (c) => {
   if (!success) {
     c.status(411);
     return c.json({
-      error: "invalid inputs",
+      error: "Invalid inputs",
     });
   }
 
@@ -41,7 +41,7 @@ userRouter.post("/signup", async (c) => {
     console.log(err);
     c.status(411);
     return c.json({
-      error: "email already exists",
+      error: "Email already exists",
     });
   }
 });
@@ -56,7 +56,7 @@ userRouter.post("/signin", async (c) => {
   if (!success) {
     c.status(411);
     return c.json({
-      error: "invalid inputs",
+      error: "Invalid inputs",
     });
   }
 
@@ -68,15 +68,31 @@ userRouter.post("/signin", async (c) => {
   if (!user) {
     c.status(411);
     return c.json({
-      error: "user doesn't exists",
+      error: "User doesn't exists",
     });
   }
   if (user.password !== body.password) {
     c.status(411);
     return c.json({
-      error: "invalid password",
+      error: "Invalid password",
     });
   }
   const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
   return c.json({ jwt });
+});
+
+userRouter.use("/me", async (c) => {
+  const token = c.req.header("authorization")?.split(" ")[1] || "";
+  try {
+    const user = await verify(token, c.env.JWT_SECRET);
+    //@ts-ignore
+    c.set("userId", user.id);
+    c.json({ auth: true });
+  } catch (err) {
+    c.status(403);
+    return c.json({
+      error: "Unauthorized",
+      auth: false,
+    });
+  }
 });

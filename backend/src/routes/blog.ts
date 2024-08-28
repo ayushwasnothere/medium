@@ -33,24 +33,6 @@ blogRouter.use("*", async (c, next) => {
   }
 });
 
-blogRouter.get("/me", async (c) => {
-  const client = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-
-  const { page } = c.req.query();
-  const filter: any = {
-    authorId: c.get("userId"),
-  };
-
-  const blogs = await client.blog.findMany({
-    where: filter,
-    take: 10,
-    skip: (parseInt(page) - 1) * 10 || 0,
-  });
-  return c.json({ blogs });
-});
-
 blogRouter.put("/me", async (c) => {
   const client = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
@@ -61,7 +43,7 @@ blogRouter.put("/me", async (c) => {
   if (!success) {
     c.status(411);
     return c.json({
-      error: "invalid inputs",
+      error: "Invalid inputs",
     });
   }
   const authorId = c.get("userId");
@@ -77,14 +59,14 @@ blogRouter.put("/me", async (c) => {
       },
     });
     return c.json({
-      message: "blog updated",
+      message: "Blog updated",
       id: blog.id,
     });
   } catch (err) {
     console.log(err);
     c.status(411);
     return c.json({
-      error: "invalid inputs",
+      error: "Invalid inputs",
     });
   }
 });
@@ -105,6 +87,17 @@ blogRouter.get("/bulk", async (c) => {
     where: filter,
     take: 10,
     skip: (parseInt(page) - 1) * 10 || 0,
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      author: {
+        select: {
+          name: true,
+          id: true,
+        },
+      },
+    },
   });
   return c.json({ blogs });
 });
@@ -120,7 +113,7 @@ blogRouter.post("/", async (c) => {
   if (!success) {
     c.status(411);
     return c.json({
-      error: "invalid inputs",
+      error: "Invalid inputs",
     });
   }
 
@@ -133,14 +126,14 @@ blogRouter.post("/", async (c) => {
       },
     });
     return c.json({
-      message: "blog successfully uploaded",
+      message: "Blog successfully uploaded",
       id: blog.id,
     });
   } catch (err) {
     console.log(err);
     c.status(411);
     return c.json({
-      error: "invalid inputs",
+      error: "Invalid inputs",
     });
   }
 });
@@ -155,7 +148,7 @@ blogRouter.put("/", async (c) => {
   if (!success) {
     c.status(411);
     return c.json({
-      error: "invalid inputs",
+      error: "Invalid inputs",
     });
   }
   const authorId = c.get("userId");
@@ -172,14 +165,14 @@ blogRouter.put("/", async (c) => {
       },
     });
     return c.json({
-      message: "blog successfully updated",
+      message: "Blog successfully updated",
       id: blog.id,
     });
   } catch (err) {
     console.log(err);
     c.status(411);
     return c.json({
-      error: "invalid inputs",
+      error: "Invalid inputs",
     });
   }
 });
@@ -194,11 +187,22 @@ blogRouter.get("/:id", async (c) => {
     where: {
       id: blogId,
     },
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      author: {
+        select: {
+          name: true,
+          id: true,
+        },
+      },
+    },
   });
   if (!blog) {
     c.status(411);
     c.json({
-      error: "invalid id",
+      error: "Invalid id",
     });
   }
   return c.json({
