@@ -3,23 +3,23 @@ import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../config";
 import { useAuth } from "./useAuth";
 
-export const useBlog = (id?: string) => {
+interface Blog {
+  id: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  author: {
+    name: string;
+    id: string;
+  };
+}
+
+export const useBlog = (id?: string | null) => {
   const { token } = useAuth();
   const { userId } = useAuth();
   if (id === "me") {
     id = userId;
   }
-  interface Blog {
-    id: number;
-    title: string;
-    content: string;
-    createdAt: string;
-    author: {
-      name: string;
-      id: string;
-    };
-  }
-
   const [loading, setLoading] = useState<boolean>(true);
   const [blog, setBlog] = useState<Blog>();
 

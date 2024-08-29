@@ -7,7 +7,6 @@ import { UserBlogs } from "./pages/UserBlogs";
 import { Publish } from "./pages/Publish";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { LoginRoute } from "./components/LoginRoutes";
-import { Blogss } from "./pages/Blogss";
 
 function App() {
   return (

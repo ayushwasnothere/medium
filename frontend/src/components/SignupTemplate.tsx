@@ -72,17 +72,19 @@ export const SignupTemplate = () => {
               if (res.data.jwt) {
                 await login(res.data.jwt);
               }
-            } catch (err: any) {
-              if (err.response.data.error) {
-                setDisplayError({
-                  err: true,
-                  message: err.response.data.error,
-                });
-              } else {
-                setDisplayError({
-                  err: true,
-                  message: "Internal error. Please try again later",
-                });
+            } catch (err) {
+              if (axios.isAxiosError(err)) {
+                if (err.response?.data.error) {
+                  setDisplayError({
+                    err: true,
+                    message: err.response.data.error,
+                  });
+                } else {
+                  setDisplayError({
+                    err: true,
+                    message: "Internal error. Please try again later",
+                  });
+                }
               }
             }
           }}

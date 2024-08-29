@@ -1,6 +1,6 @@
 interface ButtonType {
   label: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export function Button({ label, onClick }: ButtonType) {

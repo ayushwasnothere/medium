@@ -122,9 +122,9 @@ export const Appbar = () => {
             id="user-dropdown"
           >
             <div className="px-4 py-3">
-              <span className="block text-sm text-gray-900 ">{info.name}</span>
+              <span className="block text-sm text-gray-900 ">{info?.name}</span>
               <span className="block text-sm  text-gray-500 truncate ">
-                {info.email}
+                {info?.email}
               </span>
             </div>
             <ul className="py-2" aria-labelledby="user-menu-button">
