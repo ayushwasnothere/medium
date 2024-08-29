@@ -9,7 +9,9 @@ lerna-debug.log*
 
 node_modules
 dist
+src
 dist-ssr
+src/config.ts
 *.local
 
 # Editor directories and files
@@ -22,4 +24,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-src/config.ts
