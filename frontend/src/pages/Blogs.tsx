@@ -39,6 +39,7 @@ export const Blogs = () => {
                   day: "numeric",
                   year: "numeric",
                 }).format(new Date(blog.createdAt))}
+                key={blog.id}
               />
             );
           })}

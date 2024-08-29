@@ -16,10 +16,6 @@ interface Blog {
 
 export const useBlog = (id?: string | null) => {
   const { token } = useAuth();
-  const { userId } = useAuth();
-  if (id === "me") {
-    id = userId;
-  }
   const [loading, setLoading] = useState<boolean>(true);
   const [blog, setBlog] = useState<Blog>();
 
@@ -39,7 +35,7 @@ export const useBlog = (id?: string | null) => {
   return { loading, blog };
 };
 
-export const useBlogs = (id?: string) => {
+export const useBlogs = (id?: string | null) => {
   interface Blog {
     id: number;
     title: string;
@@ -54,10 +50,14 @@ export const useBlogs = (id?: string) => {
   const { token } = useAuth();
   const [loading, setLoading] = useState<boolean>(true);
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const { userId } = useAuth();
+  if (id === "me") {
+    id = userId;
+  }
 
   useEffect(() => {
     axios
-      .get(`${BACKEND_URL}/api/v1/blog/bulk?${id ? `id=${id}` : ""}}`, {
+      .get(`${BACKEND_URL}/api/v1/blog/bulk?${id ? `id=${id}` : ""}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

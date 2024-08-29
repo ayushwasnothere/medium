@@ -58,7 +58,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return false;
     }
     try {
-      console.log("sent");
       const res = await axios.get(`${BACKEND_URL}/api/v1/user/me`, {
         headers: {
           Authorization: `Bearer ${user.token}`,

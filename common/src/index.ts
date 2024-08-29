@@ -12,12 +12,12 @@ export const signinInput = z.object({
 });
 
 export const createBlogInput = z.object({
-  title: z.string().trim().min(1).max(60),
+  title: z.string().trim().min(1).max(500),
   content: z.string().trim().min(1),
 });
 
 export const updateBlogInput = z.object({
-  title: z.string().trim().min(1).max(60),
+  title: z.string().trim().min(1).max(500),
   content: z.string().trim().min(1),
   id: z.number(),
 });
